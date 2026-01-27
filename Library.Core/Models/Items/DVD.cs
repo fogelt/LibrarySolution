@@ -1,17 +1,20 @@
+using Library.Core.Utils;
+
 namespace Library.Core.Models.Items;
 
 public class DVD : LibraryItem
 {
-  public string IssueNumber { get; set; }
-  public DVD(string isbn, string title, string issueNumber, int publishedYear, bool isAvailable = true)
+  public int DurationInSeconds { get; set; }
+  public DVD(string isbn, string title, int durationInSeconds, int publishedYear, bool isAvailable = true)
       : base(isbn, title, publishedYear)
   {
-    IssueNumber = issueNumber;
+    DurationInSeconds = durationInSeconds;
     IsAvailable = isAvailable;
   }
   public override string GetInfo()
   {
+    var formattedTime = TimeFormatter.FormatDuration(DurationInSeconds);
     string status = IsAvailable ? "Available" : "Borrowed";
-    return $"{Title}, Issue #{IssueNumber} - ({PublishedYear}) - ISBN: {ISBN} [{status}]";
+    return $"{Title}, Playtime: {formattedTime} - ({PublishedYear}) - ISBN: {ISBN} [{status}]";
   }
 }
