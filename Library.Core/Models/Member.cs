@@ -3,13 +3,14 @@ using Library.Core.Interfaces;
 
 namespace Library.Core.Models;
 
-public class Member(string memberId, string name, string email, DateTime memberSince, List<Book> inventory) : ISearchable
+public class Member(string memberId, string name, string email, DateTime memberSince, List<Book> inventory, int activeScore) : ISearchable
 {
-  string MemberId { get; set; } = memberId;
-  string Name { get; set; } = name;
-  string Email { get; set; } = email;
-  DateTime MemberSince { get; set; } = memberSince;
-  List<Book> Inventory { get; set; } = inventory;
+  public string MemberId { get; set; } = memberId;
+  public string Name { get; set; } = name;
+  public string Email { get; set; } = email;
+  public DateTime MemberSince { get; set; } = memberSince;
+  public List<Book> Inventory { get; set; } = inventory;
+  public int ActiveScore { get; set; } = activeScore;
 
   public string GetInfo()
   {

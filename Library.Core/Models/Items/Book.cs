@@ -14,4 +14,9 @@ public class Book : LibraryItem
     string status = IsAvailable ? "Available" : "Borrowed";
     return $"{Title} (Book), by {Author} ({PublishedYear}) - ISBN: {ISBN} [{status}]";
   }
+  public override bool Matches(string searchTerm)
+  {
+    var propertiesToBeSearched = new string[] { ISBN, Title, Author };
+    return propertiesToBeSearched.Any(prop => prop.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+  }
 }
