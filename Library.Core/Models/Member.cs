@@ -1,3 +1,5 @@
+using Library.Core.Models.Items;
+
 namespace Library.Core.Models;
 
 public class Member(string memberId, string name, string email, DateTime memberSince, List<Book> inventory)

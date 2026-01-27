@@ -1,3 +1,5 @@
+using Library.Core.Models.Items;
+
 namespace Library.Core.Models;
 
 public class Loan(Book book, Member member, DateOnly loanDate, DateOnly dueDate)
