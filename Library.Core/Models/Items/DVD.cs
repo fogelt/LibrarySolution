@@ -15,6 +15,6 @@ public class DVD : LibraryItem
   {
     var formattedTime = TimeFormatter.FormatDuration(DurationInSeconds);
     string status = IsAvailable ? "Available" : "Borrowed";
-    return $"{Title}, Playtime: {formattedTime} - ({PublishedYear}) - ISBN: {ISBN} [{status}]";
+    return $"{Title} (DVD), Playtime: {formattedTime} - ({PublishedYear}) - ISBN: {ISBN} [{status}]";
   }
 }

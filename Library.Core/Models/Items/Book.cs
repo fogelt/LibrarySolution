@@ -12,6 +12,6 @@ public class Book : LibraryItem
   public override string GetInfo()
   {
     string status = IsAvailable ? "Available" : "Borrowed";
-    return $"{Title} by {Author} ({PublishedYear}) - ISBN: {ISBN} [{status}]";
+    return $"{Title} (Book), by {Author} ({PublishedYear}) - ISBN: {ISBN} [{status}]";
   }
 }
