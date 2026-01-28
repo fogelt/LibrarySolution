@@ -3,6 +3,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Library.Core\Library.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+  <None Update="mockdb.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+  </ItemGroup>
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>

@@ -5,19 +5,25 @@ namespace Library.Core.Data;
 
 public class JsonRepository
 {
-  private readonly string _filePath = "Library.Core/data/mockdb.json";
+  private readonly string _fileName = "mockdb.json";
 
   public List<LibraryItem> LoadItems()
   {
-    if (!File.Exists(_filePath)) return new List<LibraryItem>();
+    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
 
-    string jsonString = File.ReadAllText(_filePath);
+    if (!File.Exists(filePath))
+    {
+      return new List<LibraryItem>();
+    }
+
+    string jsonString = File.ReadAllText(filePath);
     return JsonSerializer.Deserialize<List<LibraryItem>>(jsonString) ?? new List<LibraryItem>();
   }
 
   public void SaveItems(List<LibraryItem> items)
   {
+    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _fileName);
     var jsonString = JsonSerializer.Serialize(items, new JsonSerializerOptions { WriteIndented = true });
-    File.WriteAllText(_filePath, jsonString);
+    File.WriteAllText(filePath, jsonString);
   }
 }
