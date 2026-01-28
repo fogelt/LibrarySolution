@@ -19,23 +19,27 @@ public class SearchTests
   }
 
   [Theory]
-  [InlineData("Inception", true)]
-  [InlineData("incep", true)]
-  [InlineData("999", false)]
+  [InlineData("Nolan", true)]         // Author
+  [InlineData("nol", true)]            // Partial Author
+  [InlineData("999", true)]             // ISBN
+  [InlineData("Ince", true)]           // Title
+  [InlineData("inCepTion", true)] // Case-insensitive
   public void DVD_Matches_ShouldSearchTitleAndIsbn(string searchTerm, bool expected)
   {
-    var dvd = new DVD("999", "Inception", 9000, 2010);
+    var dvd = new DVD("999", "Inception", "Nolan", 9000, 2010);
     var result = dvd.Matches(searchTerm);
     Assert.Equal(expected, result);
   }
 
   [Theory]
-  [InlineData("Vogue", true)]
-  [InlineData("Vo", true)]
-  [InlineData("888", false)]
+  [InlineData("Sara Publishing", true)]         // Author
+  [InlineData("sara p", true)]            // Partial Author
+  [InlineData("888", true)]             // ISBN
+  [InlineData("Vogue", true)]           // Title
+  [InlineData("vogUE", true)] // Case-insensitive
   public void Magazine_Matches_ShouldSearchTitleAndIssue(string searchTerm, bool expected)
   {
-    var magazine = new Magazine("888", "Vogue", 34, 2023);
+    var magazine = new Magazine("888", "Vogue", "Sara publishing", 34, 2023);
     var result = magazine.Matches(searchTerm);
     Assert.Equal(expected, result);
   }

@@ -29,8 +29,8 @@ public class LibraryServiceTests
   public void TotalItems_ShouldReturnCorrectCount()
   {
     _service.AddItem(new Book("1", "Book A", "Author", 2020));
-    _service.AddItem(new DVD("2", "Book B", 3600, 2021));
-    _service.AddItem(new Magazine("2", "Book B", 34, 2021));
+    _service.AddItem(new DVD("2", "Book B", "Author B", 3600, 2021));
+    _service.AddItem(new Magazine("2", "Book B", "Author C", 34, 2021));
 
     var count = _service.TotalItems();
     Assert.Equal(3, count);
@@ -40,8 +40,8 @@ public class LibraryServiceTests
   public void ItemsOnLoan_ShouldReturnCorrectCount()
   {
     var item1 = new Book("1", "Available Book", "Author", 2020) { IsAvailable = true };
-    var item2 = new DVD("2", "Borrowed Book", 1234, 2021) { IsAvailable = false };
-    var item3 = new Magazine("3", "Another Borrowed Book", 65, 2022) { IsAvailable = false };
+    var item2 = new DVD("2", "Borrowed Book", "Author name", 1234, 2021) { IsAvailable = false };
+    var item3 = new Magazine("3", "Another Borrowed Book", "Author name", 65, 2022) { IsAvailable = false };
 
     _service.AddItem(item1);
     _service.AddItem(item2);
@@ -56,8 +56,8 @@ public class LibraryServiceTests
   public void SortItemsAlphabetically_ShouldReturnCorrectOrder()
   {
     _service.AddItem(new Book("1", "Zebra", "Author", 2020));
-    _service.AddItem(new DVD("2", "Apan", 4123, 2021));
-    _service.AddItem(new Magazine("3", "Banan", 32, 2022));
+    _service.AddItem(new DVD("2", "Apan", "Apmannen", 4123, 2021));
+    _service.AddItem(new Magazine("3", "Banan", "banana republic", 32, 2022));
 
     var sortedList = _service.SortItemsAlphabetically();
     Assert.Equal("Apan", sortedList[0].Title);
@@ -69,8 +69,8 @@ public class LibraryServiceTests
   public void SortItemsReleaseDate_ShouldReturnChronologicalOrder()
   {
     _service.AddItem(new Book("1", "Zebra", "Author", 2020));
-    _service.AddItem(new DVD("2", "Apan", 4123, 2021));
-    _service.AddItem(new Magazine("3", "Banan", 32, 1990));
+    _service.AddItem(new DVD("2", "Apan", "Apmannen", 4123, 2021));
+    _service.AddItem(new Magazine("3", "Banan", "Magasin författaren", 32, 1990));
 
     var sortedList = _service.SortItemsReleaseDate();
 

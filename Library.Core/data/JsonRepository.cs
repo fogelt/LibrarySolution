@@ -13,7 +13,7 @@ public class JsonRepository
 
     if (!File.Exists(filePath))
     {
-      return new List<LibraryItem>();
+      return [];
     }
 
     string jsonString = File.ReadAllText(filePath);

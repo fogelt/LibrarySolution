@@ -7,7 +7,7 @@ public class MagazineTests
   [Fact]
   public void Constructor_ShouldSetPropertiesCorrectly()
   {
-    var magazine = new Magazine("ISSN-456", "Tech Monthly", 45, 2024);
+    var magazine = new Magazine("ISSN-456", "Tech Monthly", "Tech Publisher", 45, 2024);
 
     Assert.Equal("ISSN-456", magazine.ISBN);
     Assert.Equal("Tech Monthly", magazine.Title);
@@ -17,14 +17,14 @@ public class MagazineTests
   [Fact]
   public void IsAvailable_ShouldBeTrueForNewMagazine()
   {
-    var magazine = new Magazine("ISSN-456", "Tech Monthly", 54, 2024);
+    var magazine = new Magazine("ISSN-456", "Tech Monthly", "Tech Publisher", 45, 2024);
     Assert.True(magazine.IsAvailable);
   }
 
   [Fact]
   public void GetInfo_ShouldReturnFormattedString()
   {
-    var magazine = new Magazine("ISSN-456", "National Geographic", 39, 2023);
+    var magazine = new Magazine("ISSN-456", "National Geographic", "Tech Publisher", 39, 2023);
 
     string info = magazine.GetInfo();
 
