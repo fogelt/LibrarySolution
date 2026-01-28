@@ -9,7 +9,6 @@ public class DVD : LibraryItem
       : base(isbn, title, author, publishedYear)
   {
     DurationInSeconds = durationInSeconds;
-    IsAvailable = isAvailable;
   }
   public override string GetInfo()
   {

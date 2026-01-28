@@ -7,7 +7,6 @@ public class Magazine : LibraryItem
       : base(isbn, title, author, publishedYear)
   {
     IssueNumber = issueNumber;
-    IsAvailable = isAvailable;
   }
   public override string GetInfo()
   {

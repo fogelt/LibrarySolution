@@ -3,10 +3,7 @@ namespace Library.Core.Models.Items;
 public class Book : LibraryItem
 {
   public Book(string isbn, string title, string author, int publishedYear, bool isAvailable = true)
-      : base(isbn, title, author, publishedYear)
-  {
-    IsAvailable = isAvailable;
-  }
+      : base(isbn, title, author, publishedYear) { }
   public override string GetInfo()
   {
     string status = IsAvailable ? "Available" : "Borrowed";
