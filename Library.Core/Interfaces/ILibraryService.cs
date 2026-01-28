@@ -8,6 +8,6 @@ public interface ILibraryService
   void AddItem(LibraryItem item);
   void AddMember(Member member);
   List<LibraryItem> SearchItems(string searchTerm);
-  int TotalItems();
+  List<LibraryItem> GetAllItems();
   string MostActiveMember();
 }

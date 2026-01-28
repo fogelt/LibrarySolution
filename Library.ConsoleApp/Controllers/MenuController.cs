@@ -1,7 +1,8 @@
 using Library.Core.Enums;
 using Library.Core.Services;
+using Library.Core.Utils;
 
-namespace LibrarySolution.ConsoleApp.Controllers;
+namespace Library.ConsoleApp.Controllers;
 
 public class MenuController(LibraryService library)
 {
@@ -9,29 +10,24 @@ public class MenuController(LibraryService library)
   {
     while (true)
     {
-      DisplayMainMenu();
-      if (!Enum.TryParse(Console.ReadLine(), out MenuOption choice))
-      {
-        choice = MenuOption.Unknown;
-      }
-
+      DisplayMenu();
+      if (!Enum.TryParse(Console.ReadLine(), out MenuOption choice)) choice = MenuOption.Unknown;
       if (choice == MenuOption.Exit) break;
-
       HandleChoice(choice);
     }
   }
 
-  private void DisplayMainMenu()
+  private void DisplayMenu()
   {
-    Console.Clear();
-    Console.WriteLine("=== Library ===");
-    Console.WriteLine($"{(int)MenuOption.DisplayAll}. Show all items");
+    ConsoleExtensions.WriteHeader("Library System");
+    Console.WriteLine($"{(int)MenuOption.DisplayAll}. Show All Items");
     Console.WriteLine($"{(int)MenuOption.Search}. Search");
-    Console.WriteLine($"{(int)MenuOption.LoanItem}. Borrow item");
-    Console.WriteLine($"{(int)MenuOption.ReturnItem}. Return item");
-    Console.WriteLine($"{(int)MenuOption.ViewMembers}. Show all members");
+    Console.WriteLine($"{(int)MenuOption.LoanItem}. Borrow Item");
+    Console.WriteLine($"{(int)MenuOption.ReturnItem}. Return Item");
+    Console.WriteLine($"{(int)MenuOption.ViewMembers}. View Members");
+    Console.WriteLine($"{(int)MenuOption.Statistics}. Statistics");
     Console.WriteLine($"{(int)MenuOption.Exit}. Exit");
-    Console.Write("\nChoose: ");
+    Console.Write("\nSelect: ");
   }
 
   private void HandleChoice(MenuOption choice)
@@ -39,80 +35,33 @@ public class MenuController(LibraryService library)
     switch (choice)
     {
       case MenuOption.DisplayAll:
-        ShowAllItems();
+        ConsoleExtensions.WriteHeader("Inventory");
+        library.GetAllItems().ForEach(i => Console.WriteLine(i.GetInfo()));
         break;
       case MenuOption.Search:
-        SearchItems();
+        var term = ConsoleExtensions.Ask("Search for");
+        library.SearchItems(term).ForEach(i => Console.WriteLine(i.GetInfo()));
         break;
       case MenuOption.LoanItem:
-        HandleLoan();
+        if (library.BorrowItem(ConsoleExtensions.Ask("ISBN"), ConsoleExtensions.Ask("Member ID")))
+          Console.WriteLine("Loan successful!");
+        else ConsoleExtensions.WriteError("Loan failed.");
         break;
       case MenuOption.ReturnItem:
-        HandleReturn();
+        if (library.ReturnItem(ConsoleExtensions.Ask("ISBN"), ConsoleExtensions.Ask("Member ID")))
+          Console.WriteLine("Return successful!");
+        else ConsoleExtensions.WriteError("Return failed.");
         break;
       case MenuOption.ViewMembers:
-        ShowAllMembers();
+        ConsoleExtensions.WriteHeader("Members");
+        library.GetAllMembers().ForEach(m => Console.WriteLine(m.GetInfo()));
         break;
-      case MenuOption.Unknown:
-      default:
-        Console.WriteLine("Invalid choice, press any key...");
-        Console.ReadKey();
+      case MenuOption.Statistics:
+        var stats = library.GetStatistics();
+        ConsoleExtensions.WriteHeader("Statistics");
+        Console.WriteLine($"Total: {stats.Total}\nOn Loan: {stats.Loaned}\nMVP: {stats.MVP}");
         break;
     }
-  }
-
-  private void ShowAllItems()
-  {
-    Console.Clear();
-    Console.WriteLine("-- Library Inventory --");
-
-    var items = library.SortItemsAlphabetically();
-    foreach (var item in items)
-    {
-      Console.WriteLine(item.GetInfo());
-    }
-
-    Console.WriteLine("\nPress any key to return.");
-    Console.ReadKey();
-  }
-
-  private void SearchItems()
-  {
-    Console.Write("Enter search term: ");
-    var term = Console.ReadLine() ?? "";
-
-    var results = library.SearchItems(term);
-
-    Console.WriteLine("\nResultat:");
-    foreach (var res in results)
-    {
-      Console.WriteLine(res.GetInfo());
-    }
-
-    Console.ReadKey();
-  }
-
-  private void ShowAllMembers()
-  {
-    Console.WriteLine("--- All active members ---");
-    var results = library.ShowAllMembers();
-    foreach (var res in results)
-    {
-      Console.WriteLine(res.GetInfo());
-    }
-    Console.ReadKey();
-  }
-  private void HandleLoan()
-  {
-    Console.WriteLine("--- Borrow item ---");
-    // TBD
-    Console.ReadKey();
-  }
-
-  private void HandleReturn()
-  {
-    Console.WriteLine("--- Return item ---");
-    // TBD
-    Console.ReadKey();
+    ConsoleExtensions.WaitForKey();
   }
 }

@@ -32,7 +32,7 @@ public class LibraryServiceTests
     _service.AddItem(new DVD("2", "Book B", "Author B", 3600, 2021));
     _service.AddItem(new Magazine("2", "Book B", "Author C", 34, 2021));
 
-    var count = _service.TotalItems();
+    var count = _service.GetItemsCount();
     Assert.Equal(3, count);
   }
 
@@ -47,7 +47,7 @@ public class LibraryServiceTests
     _service.AddItem(item2);
     _service.AddItem(item3);
 
-    var count = _service.ItemsOnLoan();
+    var count = _service.ItemsOnLoanCount();
 
     Assert.Equal(2, count);
   }
