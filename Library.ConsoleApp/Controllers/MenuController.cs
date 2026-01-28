@@ -29,6 +29,7 @@ public class MenuController(LibraryService library)
     Console.WriteLine($"{(int)MenuOption.Search}. Search");
     Console.WriteLine($"{(int)MenuOption.LoanItem}. Borrow item");
     Console.WriteLine($"{(int)MenuOption.ReturnItem}. Return item");
+    Console.WriteLine($"{(int)MenuOption.ViewMembers}. Show all members");
     Console.WriteLine($"{(int)MenuOption.Exit}. Exit");
     Console.Write("\nChoose: ");
   }
@@ -48,6 +49,9 @@ public class MenuController(LibraryService library)
         break;
       case MenuOption.ReturnItem:
         HandleReturn();
+        break;
+      case MenuOption.ViewMembers:
+        ShowAllMembers();
         break;
       case MenuOption.Unknown:
       default:
@@ -88,6 +92,16 @@ public class MenuController(LibraryService library)
     Console.ReadKey();
   }
 
+  private void ShowAllMembers()
+  {
+    Console.WriteLine("--- All active members ---");
+    var results = library.ShowAllMembers();
+    foreach (var res in results)
+    {
+      Console.WriteLine(res.GetInfo());
+    }
+    Console.ReadKey();
+  }
   private void HandleLoan()
   {
     Console.WriteLine("--- Borrow item ---");

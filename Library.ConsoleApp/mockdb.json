@@ -1,104 +1,132 @@
-[
-  {
-    "$type": "book",
-    "ISBN": "978-91-0-012345-6",
-    "Title": "Sagan om ringen",
-    "Author": "J.R.R. Tolkien",
-    "PublishedYear": 1954,
-    "IsAvailable": true
-  },
-  {
-    "$type": "book",
-    "ISBN": "978-91-0-012345-7",
-    "Title": "Hobbiten",
-    "Author": "J.R.R. Tolkien",
-    "PublishedYear": 1937,
-    "IsAvailable": true
-  },
-  {
-    "$type": "book",
-    "ISBN": "978-01-4-044913-6",
-    "Title": "Brott och straff",
-    "Author": "Fjodor Dostojevskij",
-    "PublishedYear": 1866,
-    "IsAvailable": true
-  },
-  {
-    "$type": "book",
-    "ISBN": "978-05-5-338016-3",
-    "Title": "A Game of Thrones",
-    "Author": "George R.R. Martin",
-    "PublishedYear": 1996,
-    "IsAvailable": true
-  },
-  {
-    "$type": "book",
-    "ISBN": "978-91-1-309245-3",
-    "Title": "Pappas pojke",
-    "Author": "Emelie Schepp",
-    "PublishedYear": 2017,
-    "IsAvailable": true
-  },
-  {
-    "$type": "dvd",
-    "ISBN": "DVD-101",
-    "Title": "Inception",
-    "Author": "Christopher Nolan",
-    "DurationInSeconds": 8880,
-    "PublishedYear": 2010,
-    "IsAvailable": true
-  },
-  {
-    "$type": "dvd",
-    "ISBN": "DVD-102",
-    "Title": "The Matrix",
-    "Author": "Lana & Lilly Wachowski",
-    "DurationInSeconds": 8160,
-    "PublishedYear": 1999,
-    "IsAvailable": true
-  },
-  {
-    "$type": "dvd",
-    "ISBN": "DVD-103",
-    "Title": "Interstellar",
-    "Author": "Christopher Nolan",
-    "DurationInSeconds": 10140,
-    "PublishedYear": 2014,
-    "IsAvailable": true
-  },
-  {
-    "$type": "dvd",
-    "ISBN": "DVD-104",
-    "Title": "Pulp Fiction",
-    "Author": "Quentin Tarantino",
-    "DurationInSeconds": 9240,
-    "PublishedYear": 1994,
-    "IsAvailable": true
-  },
-  {
-    "$type": "magazine",
-    "ISBN": "MAG-2024-01",
-    "Title": "Illustrerad Vetenskap",
-    "Author": "Bonnier Publications",
-    "IssueNumber": 65,
-    "PublishedYear": 2024,
-    "IsAvailable": true
-  },
-  {
-    "$type": "magazine",
-    "ISBN": "MAG-2023-12",
-    "Title": "PC för Alla",
-    "Author": "Foundry",
-    "IssueNumber": 32,
-    "PublishedYear": 2023,
-    "IsAvailable": true
-  },
-  {
-    "$type": "book",
-    "ISBN": "978-00-6-245771-4",
-    "Title": "The Alchemist",
-    "Author": "Paulo Coelho",
-    "PublishedYear": 1988,
-    "IsAvailable": true
-  }
-]
+{
+  "Items": [
+    {
+      "$type": "book",
+      "ISBN": "978-91-0-012345-6",
+      "Title": "The Lord of the Rings",
+      "Author": "J.R.R. Tolkien",
+      "PublishedYear": 1954,
+      "IsAvailable": true
+    },
+    {
+      "$type": "book",
+      "ISBN": "978-91-0-012345-7",
+      "Title": "The Hobbit",
+      "Author": "J.R.R. Tolkien",
+      "PublishedYear": 1937,
+      "IsAvailable": true
+    },
+    {
+      "$type": "book",
+      "ISBN": "978-01-4-044913-6",
+      "Title": "Crime and Punishment",
+      "Author": "Fyodor Dostoevsky",
+      "PublishedYear": 1866,
+      "IsAvailable": true
+    },
+    {
+      "$type": "book",
+      "ISBN": "978-05-5-338016-3",
+      "Title": "A Game of Thrones",
+      "Author": "George R.R. Martin",
+      "PublishedYear": 1996,
+      "IsAvailable": true
+    },
+    {
+      "$type": "book",
+      "ISBN": "978-91-1-309245-3",
+      "Title": "Father's Boy",
+      "Author": "Emelie Schepp",
+      "PublishedYear": 2017,
+      "IsAvailable": true
+    },
+    {
+      "$type": "dvd",
+      "ISBN": "DVD-101",
+      "Title": "Inception",
+      "Author": "Christopher Nolan",
+      "DurationInSeconds": 8880,
+      "PublishedYear": 2010,
+      "IsAvailable": true
+    },
+    {
+      "$type": "dvd",
+      "ISBN": "DVD-102",
+      "Title": "The Matrix",
+      "Author": "Lana & Lilly Wachowski",
+      "DurationInSeconds": 8160,
+      "PublishedYear": 1999,
+      "IsAvailable": true
+    },
+    {
+      "$type": "dvd",
+      "ISBN": "DVD-103",
+      "Title": "Interstellar",
+      "Author": "Christopher Nolan",
+      "DurationInSeconds": 10140,
+      "PublishedYear": 2014,
+      "IsAvailable": true
+    },
+    {
+      "$type": "dvd",
+      "ISBN": "DVD-104",
+      "Title": "Pulp Fiction",
+      "Author": "Quentin Tarantino",
+      "DurationInSeconds": 9240,
+      "PublishedYear": 1994,
+      "IsAvailable": true
+    },
+    {
+      "$type": "magazine",
+      "ISBN": "MAG-2024-01",
+      "Title": "Illustrated Science",
+      "Author": "Bonnier Publications",
+      "IssueNumber": 65,
+      "PublishedYear": 2024,
+      "IsAvailable": true
+    },
+    {
+      "$type": "magazine",
+      "ISBN": "MAG-2023-12",
+      "Title": "PC for Everyone",
+      "Author": "Foundry",
+      "IssueNumber": 32,
+      "PublishedYear": 2023,
+      "IsAvailable": true
+    },
+    {
+      "$type": "book",
+      "ISBN": "978-00-6-245771-4",
+      "Title": "The Alchemist",
+      "Author": "Paulo Coelho",
+      "PublishedYear": 1988,
+      "IsAvailable": true
+    }
+  ],
+  "Members": [
+    {
+      "MemberId": "M001",
+      "Name": "Alice Johnson",
+      "Email": "alice@example.com",
+      "MemberSince": "2023-01-15T00:00:00",
+      "ActiveScore": 150,
+      "Inventory": []
+    },
+    {
+      "MemberId": "M002",
+      "Name": "Bob Smith",
+      "Email": "bob.builder@post.com",
+      "MemberSince": "2023-05-20T00:00:00",
+      "ActiveScore": 45,
+      "Inventory": []
+    },
+    {
+      "MemberId": "M003",
+      "Name": "Charlie Davis",
+      "Email": "charlie.d@tech.org",
+      "MemberSince": "2024-02-10T00:00:00",
+      "ActiveScore": 210,
+      "Inventory": []
+    }
+  ]
+}

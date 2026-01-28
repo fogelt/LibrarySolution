@@ -7,16 +7,20 @@ namespace Library.Core.Services;
 
 public class LibraryService : ILibraryService
 {
-    private List<LibraryItem> _items;
-    private readonly JsonRepository _repository;
+    private readonly List<LibraryItem> _items;
+    private readonly List<Member> _members;
+    private readonly JsonRepository _repo = new();
 
     public LibraryService()
     {
-        _repository = new JsonRepository();
-        _items = _repository.LoadItems();
+        var data = _repo.LoadAllData();
+        _items = data.Items;
+        _members = data.Members;
     }
 
-    private readonly List<Member> _members = [];
+    public List<Member> ShowAllMembers() => [.. _members.OrderBy(m => m.Name)];
+
+    public void PersistData() => _repo.SaveAllData(_items, _members);
 
     public void AddItem(LibraryItem item) => _items.Add(item);
     public void AddMember(Member member) => _members.Add(member);
