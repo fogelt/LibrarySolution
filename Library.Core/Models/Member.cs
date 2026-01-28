@@ -14,8 +14,8 @@ public class Member(string memberId, string name, string email, DateTime memberS
 
   public string GetInfo()
   {
-    string InventoryStatus = Inventory.Count == 0 ? "No items on loan" : $"Items on loan: {Inventory}";
-    return $"---[{MemberId}] \nName: {Name} \nEmail: {Email} \nJoined on: {MemberSince} \n{InventoryStatus}---";
+    string InventoryStatus = Inventory.Count == 0 ? "No items on loan" : "Items on loan: " + string.Join(", ", Inventory.Select(i => i.Title));
+    return $"ID: [{MemberId}] \nName: {Name} \nEmail: {Email} \nJoined on: {MemberSince} \n{InventoryStatus}\n-------------------------------------";
   }
 
   public bool Matches(string searchTerm)

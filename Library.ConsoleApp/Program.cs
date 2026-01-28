@@ -1,6 +1,9 @@
 ﻿using Library.Core.Services;
-using LibrarySolution.ConsoleApp.Controllers;
+using Library.ConsoleApp.Controllers;
+using Library.Core.Data;
 
-var library = new LibraryService();
+var repo = new JsonRepository();
+var library = new LibraryService(repo);
 var menu = new MenuController(library);
+
 menu.Run();

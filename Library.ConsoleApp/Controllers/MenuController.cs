@@ -59,7 +59,7 @@ public class MenuController(LibraryService library)
       case MenuOption.Statistics:
         var stats = library.GetStatistics();
         ConsoleExtensions.WriteHeader("Statistics");
-        Console.WriteLine($"Total: {stats.Total}\nOn Loan: {stats.Loaned}\nMVP: {stats.MVP}");
+        Console.WriteLine($"Total items: {stats.Total}\nItems on Loan: {stats.Loaned}\nMVP: {stats.MVP}");
         break;
     }
     ConsoleExtensions.WaitForKey();
