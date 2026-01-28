@@ -15,15 +15,15 @@ public class LibraryService : ILibraryService
   public List<LibraryItem> SearchItems(string searchTerm) =>
       [.. _items.Where(i => i.Matches(searchTerm))];
 
-  public List<Book> SortBooksAlphabetically() =>
-      [.. _items.OfType<Book>().OrderBy(b => b.Title)];
+  public List<LibraryItem> SortItemsAlphabetically() =>
+      [.. _items.OfType<LibraryItem>().OrderBy(b => b.Title)];
 
-  public List<Book> SortBooksReleaseDate() =>
-      [.. _items.OfType<Book>().OrderBy(b => b.PublishedYear)];
+  public List<LibraryItem> SortItemsReleaseDate() =>
+      [.. _items.OfType<LibraryItem>().OrderBy(b => b.PublishedYear)];
 
   public int TotalItems() => _items.Count;
 
-  public int BooksOnLoan() => _items.Count(i => !i.IsAvailable);
+  public int ItemsOnLoan() => _items.Count(i => !i.IsAvailable);
 
   public string MostActiveMember() =>
       _members.MaxBy(m => m.ActiveScore)?.Name ?? "No members found";
