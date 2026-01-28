@@ -43,14 +43,10 @@ public class MenuController(LibraryService library)
         library.SearchItems(term).ForEach(i => Console.WriteLine(i.GetInfo()));
         break;
       case MenuOption.LoanItem:
-        if (library.BorrowItem(ConsoleExtensions.Ask("ISBN"), ConsoleExtensions.Ask("Member ID")))
-          Console.WriteLine("Loan successful!");
-        else ConsoleExtensions.WriteError("Loan failed.");
+        HandleLoan();
         break;
       case MenuOption.ReturnItem:
-        if (library.ReturnItem(ConsoleExtensions.Ask("ISBN"), ConsoleExtensions.Ask("Member ID")))
-          Console.WriteLine("Return successful!");
-        else ConsoleExtensions.WriteError("Return failed.");
+        HandleReturn();
         break;
       case MenuOption.ViewMembers:
         ConsoleExtensions.WriteHeader("Members");
@@ -63,5 +59,39 @@ public class MenuController(LibraryService library)
         break;
     }
     ConsoleExtensions.WaitForKey();
+  }
+
+  private void HandleLoan()
+  {
+    ConsoleExtensions.WriteHeader("Borrow Item");
+    try
+    {
+      string isbn = ConsoleExtensions.Ask("ISBN");
+      string mId = ConsoleExtensions.Ask("Member ID");
+
+      library.BorrowItem(isbn, mId);
+      Console.WriteLine("\nLoan successful!");
+    }
+    catch (Exception ex)
+    {
+      ConsoleExtensions.WriteError(ex.Message);
+    }
+  }
+
+  private void HandleReturn()
+  {
+    ConsoleExtensions.WriteHeader("Return Item");
+    try
+    {
+      string isbn = ConsoleExtensions.Ask("ISBN");
+      string mId = ConsoleExtensions.Ask("Member ID");
+
+      library.ReturnItem(isbn, mId);
+      Console.WriteLine("\nReturn successful!");
+    }
+    catch (Exception ex)
+    {
+      ConsoleExtensions.WriteError(ex.Message);
+    }
   }
 }

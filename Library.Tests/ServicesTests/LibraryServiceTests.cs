@@ -80,4 +80,35 @@ public class LibraryServiceTests
     Assert.Equal(2020, sortedList[1].PublishedYear);
     Assert.Equal(2021, sortedList[2].PublishedYear);
   }
+  [Fact]
+  public void BorrowItem_ShouldThrowException_WhenItemDoesNotExist()
+  {
+    var ex = Assert.Throws<ArgumentException>(() =>
+        _service.BorrowItem("999-NON-EXISTENT", "M001"));
+
+    Assert.Contains("not found", ex.Message);
+  }
+
+  [Fact]
+  public void BorrowItem_ShouldThrowException_WhenItemIsAlreadyBorrowed()
+  {
+    var item = new Book("123", "Test Book", "Author", 2020) { IsAvailable = false };
+    var member = new Member("M1", "Alice", "a@a.com", DateTime.Now, [], 0);
+
+    _service.AddItem(item);
+    _service.AddMember(member);
+
+    Assert.Throws<InvalidOperationException>(() =>
+        _service.BorrowItem("123", "M1"));
+  }
+
+  [Fact]
+  public void ReturnItem_ShouldThrowException_WhenMemberDoesNotHaveTheItem()
+  {
+    var member = new Member("M1", "Alice", "a@a.com", DateTime.Now, [], 0);
+    _service.AddMember(member);
+
+    Assert.Throws<InvalidOperationException>(() =>
+        _service.ReturnItem("ANY-ISBN", "M1"));
+  }
 }

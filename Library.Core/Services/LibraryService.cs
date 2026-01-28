@@ -49,10 +49,12 @@ public class LibraryService : ILibraryService
     // --- Core logic ---
     public bool BorrowItem(string isbn, string memberId)
     {
-        var item = _items.FirstOrDefault(i => i.ISBN == isbn && i.IsAvailable);
+        var item = _items.FirstOrDefault(i => i.ISBN == isbn);
         var member = _members.FirstOrDefault(m => m.MemberId == memberId);
 
-        if (item == null || member == null) return false;
+        if (item == null) throw new ArgumentException($"Item with ISBN {isbn} not found.");
+        if (member == null) throw new ArgumentException($"Member with ID {memberId} not found.");
+        if (!item.IsAvailable) throw new InvalidOperationException($"Item '{item.Title}' is already on loan.");
 
         item.IsAvailable = false;
         member.Inventory.Add(item);
@@ -63,11 +65,11 @@ public class LibraryService : ILibraryService
 
     public bool ReturnItem(string isbn, string memberId)
     {
-        var item = _items.FirstOrDefault(i => i.ISBN == isbn && !i.IsAvailable);
         var member = _members.FirstOrDefault(m => m.MemberId == memberId);
+        if (member == null) throw new ArgumentException("Member not found.");
 
-        if (item == null || member == null || !member.Inventory.Contains(item))
-            return false;
+        var item = member.Inventory.FirstOrDefault(i => i.ISBN == isbn);
+        if (item == null) throw new InvalidOperationException("This member does not have this item in their inventory.");
 
         item.IsAvailable = true;
         member.Inventory.Remove(item);
