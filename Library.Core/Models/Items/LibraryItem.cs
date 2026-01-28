@@ -1,7 +1,12 @@
 using Library.Core.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace Library.Core.Models.Items;
 
+//--TEMPORARY MOCK DB--
+[JsonDerivedType(typeof(Book), typeDiscriminator: "book")]
+[JsonDerivedType(typeof(DVD), typeDiscriminator: "dvd")]
+[JsonDerivedType(typeof(Magazine), typeDiscriminator: "magazine")]
 public abstract class LibraryItem(string id, string title, int year) : ISearchable
 {
   public string ISBN { get; init; } = id;

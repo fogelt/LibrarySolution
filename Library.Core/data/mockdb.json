@@ -1,0 +1,18 @@
+[
+  {
+    "$type": "book",
+    "ISBN": "978-91-0-012345-6",
+    "Title": "Sagan om ringen",
+    "Author": "J.R.R. Tolkien",
+    "PublishedYear": 1954,
+    "IsAvailable": true
+  },
+  {
+    "$type": "dvd",
+    "ISBN": "DVD-101",
+    "Title": "Inception",
+    "DurationSeconds": 8880,
+    "PublishedYear": 2010,
+    "IsAvailable": true
+  }
+]

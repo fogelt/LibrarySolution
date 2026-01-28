@@ -1,12 +1,29 @@
 using Library.Core.Models;
 using Library.Core.Models.Items;
 using Library.Core.Interfaces;
+using System.Text.Json;
 
 namespace Library.Core.Services;
 
 public class LibraryService : ILibraryService
 {
-    private readonly List<LibraryItem> _items = [];
+    private List<LibraryItem> _items = [];
+    private readonly string _filePath = "Library.Core/data/mockdb.json";
+
+    public void LoadData()
+    {
+        if (!File.Exists(_filePath)) return;
+
+        string jsonString = File.ReadAllText(_filePath);
+        _items = JsonSerializer.Deserialize<List<LibraryItem>>(jsonString) ?? [];
+    }
+
+    public void SaveData()
+    {
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        string jsonString = JsonSerializer.Serialize(_items, options);
+        File.WriteAllText(_filePath, jsonString);
+    }
     private readonly List<Member> _members = [];
 
     public void AddItem(LibraryItem item) => _items.Add(item);
