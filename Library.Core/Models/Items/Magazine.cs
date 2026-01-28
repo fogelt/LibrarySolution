@@ -12,6 +12,6 @@ public class Magazine : LibraryItem
   public override string GetInfo()
   {
     string status = IsAvailable ? "Available" : "Borrowed";
-    return $"{Title} (Magazine), Issue #{IssueNumber} - ({PublishedYear}) - ISBN: {ISBN} [{status}]";
+    return $"\n------------------------------\n{Title} (Magazine), Issue #{IssueNumber}\n({PublishedYear}) - ISBN: {ISBN} [{status}]\n------------------------------";
   }
 }

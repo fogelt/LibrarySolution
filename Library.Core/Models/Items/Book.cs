@@ -12,7 +12,7 @@ public class Book : LibraryItem
   public override string GetInfo()
   {
     string status = IsAvailable ? "Available" : "Borrowed";
-    return $"{Title} (Book), by {Author} ({PublishedYear}) - ISBN: {ISBN} [{status}]";
+    return $"\n------------------------------\n{Title} (Book), by {Author}\n({PublishedYear}) - ISBN: {ISBN} [{status}]\n------------------------------";
   }
   public override bool Matches(string searchTerm)
   {

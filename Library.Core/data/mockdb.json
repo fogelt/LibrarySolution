@@ -8,11 +8,91 @@
     "IsAvailable": true
   },
   {
+    "$type": "book",
+    "ISBN": "978-91-0-012345-7",
+    "Title": "Hobbiten",
+    "Author": "J.R.R. Tolkien",
+    "PublishedYear": 1937,
+    "IsAvailable": true
+  },
+  {
+    "$type": "book",
+    "ISBN": "978-01-4-044913-6",
+    "Title": "Brott och straff",
+    "Author": "Fjodor Dostojevskij",
+    "PublishedYear": 1866,
+    "IsAvailable": true
+  },
+  {
+    "$type": "book",
+    "ISBN": "978-05-5-338016-3",
+    "Title": "A Game of Thrones",
+    "Author": "George R.R. Martin",
+    "PublishedYear": 1996,
+    "IsAvailable": true
+  },
+  {
+    "$type": "book",
+    "ISBN": "978-91-1-309245-3",
+    "Title": "Pappas pojke",
+    "Author": "Emelie Schepp",
+    "PublishedYear": 2017,
+    "IsAvailable": true
+  },
+  {
     "$type": "dvd",
     "ISBN": "DVD-101",
     "Title": "Inception",
-    "DurationSeconds": 8880,
+    "DurationInSeconds": 8880,
     "PublishedYear": 2010,
+    "IsAvailable": true
+  },
+  {
+    "$type": "dvd",
+    "ISBN": "DVD-102",
+    "Title": "The Matrix",
+    "DurationInSeconds": 8160,
+    "PublishedYear": 1999,
+    "IsAvailable": true
+  },
+  {
+    "$type": "dvd",
+    "ISBN": "DVD-103",
+    "Title": "Interstellar",
+    "DurationInSeconds": 10140,
+    "PublishedYear": 2014,
+    "IsAvailable": true
+  },
+  {
+    "$type": "dvd",
+    "ISBN": "DVD-104",
+    "Title": "Pulp Fiction",
+    "DurationInSeconds": 9240,
+    "PublishedYear": 1994,
+    "IsAvailable": true
+  },
+  {
+    "$type": "magazine",
+    "ISBN": "MAG-2024-01",
+    "Title": "Illustrerad Vetenskap",
+    "IssueNumber": 65,
+    "PublishedYear": 2024,
+    "IsAvailable": true
+  },
+  {
+    "$type": "magazine",
+    "ISBN": "MAG-2023-12",
+    "Title": "PC för Alla",
+    "IssueNumber": 32,
+    "PublishedYear": 2023,
+    "IsAvailable": true
+  },
+  {
+    "$type": "book",
+    "ISBN": "978-00-6-245771-4",
+    "Title": "The Alchemist",
+    "Author": "Paulo Coelho",
+    "PublishedYear": 1988,
     "IsAvailable": true
   }
 ]

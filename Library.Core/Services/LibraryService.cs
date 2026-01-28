@@ -18,12 +18,6 @@ public class LibraryService : ILibraryService
         _items = JsonSerializer.Deserialize<List<LibraryItem>>(jsonString) ?? [];
     }
 
-    public void SaveData()
-    {
-        var options = new JsonSerializerOptions { WriteIndented = true };
-        string jsonString = JsonSerializer.Serialize(_items, options);
-        File.WriteAllText(_filePath, jsonString);
-    }
     private readonly List<Member> _members = [];
 
     public void AddItem(LibraryItem item) => _items.Add(item);
