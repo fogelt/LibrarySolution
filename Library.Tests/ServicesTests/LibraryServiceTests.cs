@@ -1,6 +1,7 @@
 using Library.Core.Services;
 using Library.Core.Models;
 using Library.Core.Models.Items;
+using Library.Tests.Mocks;
 
 namespace Library.Tests.ServicesTests;
 
@@ -9,7 +10,8 @@ public class LibraryServiceTests
   private readonly LibraryService _service;
   public LibraryServiceTests()
   {
-    _service = new LibraryService();
+    var fakeRepo = new MockRepository();
+    _service = new LibraryService(fakeRepo);
   }
 
   [Theory]

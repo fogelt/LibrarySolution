@@ -9,13 +9,14 @@ public class LibraryService : ILibraryService
 {
     private readonly List<LibraryItem> _items;
     private readonly List<Member> _members;
-    private readonly JsonRepository _repo = new();
+    private readonly ILibraryRepository _repo;
 
-    public LibraryService()
+    public LibraryService(ILibraryRepository repo)
     {
+        _repo = repo;
         var data = _repo.LoadAllData();
-        _items = data.Items ?? [];
-        _members = data.Members ?? [];
+        _items = data.Items;
+        _members = data.Members;
     }
 
     // --- Member methods ---

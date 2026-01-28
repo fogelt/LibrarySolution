@@ -1,10 +1,11 @@
 using Library.Core.Models.Items;
 using Library.Core.Models;
+using Library.Core.Interfaces;
 using System.Text.Json;
 
 namespace Library.Core.Data;
 
-public class JsonRepository
+public class JsonRepository : ILibraryRepository
 {
   private readonly string _fileName = "mockdb.json";
   private readonly string _filePath;
