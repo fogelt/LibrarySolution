@@ -43,6 +43,7 @@
     "$type": "dvd",
     "ISBN": "DVD-101",
     "Title": "Inception",
+    "Author": "Christopher Nolan",
     "DurationInSeconds": 8880,
     "PublishedYear": 2010,
     "IsAvailable": true
@@ -51,6 +52,7 @@
     "$type": "dvd",
     "ISBN": "DVD-102",
     "Title": "The Matrix",
+    "Author": "Lana & Lilly Wachowski",
     "DurationInSeconds": 8160,
     "PublishedYear": 1999,
     "IsAvailable": true
@@ -59,6 +61,7 @@
     "$type": "dvd",
     "ISBN": "DVD-103",
     "Title": "Interstellar",
+    "Author": "Christopher Nolan",
     "DurationInSeconds": 10140,
     "PublishedYear": 2014,
     "IsAvailable": true
@@ -67,6 +70,7 @@
     "$type": "dvd",
     "ISBN": "DVD-104",
     "Title": "Pulp Fiction",
+    "Author": "Quentin Tarantino",
     "DurationInSeconds": 9240,
     "PublishedYear": 1994,
     "IsAvailable": true
@@ -75,6 +79,7 @@
     "$type": "magazine",
     "ISBN": "MAG-2024-01",
     "Title": "Illustrerad Vetenskap",
+    "Author": "Bonnier Publications",
     "IssueNumber": 65,
     "PublishedYear": 2024,
     "IsAvailable": true
@@ -83,6 +88,7 @@
     "$type": "magazine",
     "ISBN": "MAG-2023-12",
     "Title": "PC för Alla",
+    "Author": "Foundry",
     "IssueNumber": 32,
     "PublishedYear": 2023,
     "IsAvailable": true
