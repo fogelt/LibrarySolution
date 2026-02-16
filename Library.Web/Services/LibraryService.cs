@@ -1,83 +1,56 @@
 using Library.Core.Models;
 using Library.Core.Models.Items;
-using Library.Data;
-using Microsoft.EntityFrameworkCore;
+using Library.Core.Interfaces;
 
 namespace Library.Web.Services;
 
-public class LibraryService(IDbContextFactory<LibraryDbContext> dbFactory)
+public class LibraryService(
+    IRepository<LibraryItem> itemRepo,
+    IRepository<Member> memberRepo,
+    IRepository<Loan> loanRepo)
 {
     public async Task<List<Member>> GetAllMembersAsync()
     {
-        using var context = dbFactory.CreateDbContext();
-        return await context.Members.OrderBy(m => m.Name).ToListAsync();
+        var members = await memberRepo.GetAllAsync();
+        return members.OrderBy(m => m.Name).ToList();
     }
 
-    public async Task AddMemberAsync(Member member)
-    {
-        using var context = dbFactory.CreateDbContext();
-        context.Members.Add(member);
-        await context.SaveChangesAsync();
-    }
+    public async Task AddMemberAsync(Member member) => await memberRepo.AddAsync(member);
 
     public async Task<List<LibraryItem>> GetAllItemsAsync()
     {
-        using var context = dbFactory.CreateDbContext();
-        return await context.Items.OrderBy(i => i.Title).ToListAsync();
-    }
-
-    public async Task<List<LibraryItem>> SearchItemsAsync(string searchTerm)
-    {
-        using var context = dbFactory.CreateDbContext();
-        var items = await context.Items.ToListAsync();
-        return items.Where(i => i.Matches(searchTerm)).ToList();
+        var items = await itemRepo.GetAllAsync();
+        return items.OrderBy(i => i.Title).ToList();
     }
 
     public async Task<bool> BorrowItemAsync(string isbn, string memberId)
     {
-        using var context = dbFactory.CreateDbContext();
-
-        var item = await context.Items.FirstOrDefaultAsync(i => i.ISBN == isbn);
-        var member = await context.Members.FirstOrDefaultAsync(m => m.MemberId == memberId);
+        var item = await itemRepo.GetByIdAsync(isbn);
+        var member = await memberRepo.GetByIdAsync(memberId);
 
         if (item == null || member == null || !item.IsAvailable) return false;
 
         item.IsAvailable = false;
         var loan = new Loan(item, member, DateTime.Now, DateTime.Now.AddDays(14));
-        context.Loans.Add(loan);
 
-        await context.SaveChangesAsync();
-        return true;
-    }
-
-    public async Task<bool> ReturnItemAsync(string isbn)
-    {
-        using var context = dbFactory.CreateDbContext();
-
-        var loan = await context.Loans
-            .Include(l => l.Item)
-            .FirstOrDefaultAsync(l => l.ItemISBN == isbn && l.ReturnDate == null);
-
-        if (loan == null) return false;
-
-        loan.Item.IsAvailable = true;
-        loan.ReturnDate = DateTime.Now;
-
-        await context.SaveChangesAsync();
+        await itemRepo.UpdateAsync(item);
+        await loanRepo.AddAsync(loan);
         return true;
     }
 
     public async Task<(int Total, int Loaned, string MVP)> GetStatisticsAsync()
     {
-        using var context = dbFactory.CreateDbContext();
+        var allItems = await itemRepo.GetAllAsync();
+        var allLoans = await loanRepo.GetAllAsync();
+        var allMembers = await memberRepo.GetAllAsync();
 
-        int total = await context.Items.CountAsync();
-        int loaned = await context.Items.CountAsync(i => !i.IsAvailable);
+        int total = allItems.Count();
+        int loaned = allItems.Count(i => !i.IsAvailable);
 
-        var mvp = await context.Members
-            .OrderByDescending(m => context.Loans.Count(l => l.MemberId == m.MemberId))
+        var mvp = allMembers
+            .OrderByDescending(m => allLoans.Count(l => l.MemberId == m.MemberId))
             .Select(m => m.Name)
-            .FirstOrDefaultAsync() ?? "N/A";
+            .FirstOrDefault() ?? "N/A";
 
         return (total, loaned, mvp);
     }

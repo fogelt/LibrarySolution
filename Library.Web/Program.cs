@@ -1,6 +1,8 @@
 using Library.Data;
+using Library.Data.Repositories;
 using Library.Web.Components;
 using Library.Web.Services;
+using Library.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,11 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// 2. Add DB Context Factory (Ensure this is here!)
 builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
     options.UseSqlite("Data Source=library.db"));
 
-// 3. REGISTER THE LIBRARY SERVICE <--- THIS IS THE MISSING PIECE
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<LibraryService>();
 
 var app = builder.Build();

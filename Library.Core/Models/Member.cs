@@ -1,25 +1,24 @@
-using Library.Core.Models.Items;
-using Library.Core.Interfaces;
-
+using System.ComponentModel.DataAnnotations;
 namespace Library.Core.Models;
 
-public class Member(string memberId, string name, string email, DateTime memberSince, List<LibraryItem> inventory, int activeScore) : ISearchable
+public class Member
 {
-  public string MemberId { get; set; } = memberId;
-  public string Name { get; set; } = name;
-  public string Email { get; set; } = email;
-  public DateTime MemberSince { get; set; } = memberSince;
-  public List<LibraryItem> Inventory { get; set; } = inventory;
-  public int ActiveScore { get; set; } = activeScore;
+  [Key]
+  public string MemberId { get; set; } = null!;
+  public string Name { get; set; } = null!;
+  public string Email { get; set; } = null!;
+  public DateTime MemberSince { get; set; }
+  public int ActiveScore { get; set; }
+  public List<Loan> Loans { get; set; } = new();
 
-  public string GetInfo()
-  {
-    string InventoryStatus = Inventory.Count == 0 ? "No items on loan" : "Items on loan: " + string.Join(", ", Inventory.Select(i => i.Title));
-    return $"ID: [{MemberId}] \nName: {Name} \nEmail: {Email} \nJoined on: {MemberSince} \n{InventoryStatus}\n-------------------------------------";
-  }
+  protected Member() { }
 
-  public bool Matches(string searchTerm)
+  public Member(string memberId, string name, string email, DateTime memberSince, int activeScore)
   {
-    return Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase);
+    MemberId = memberId;
+    Name = name;
+    Email = email;
+    MemberSince = memberSince;
+    ActiveScore = activeScore;
   }
 }

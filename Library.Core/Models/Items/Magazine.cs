@@ -3,14 +3,11 @@ namespace Library.Core.Models.Items;
 public class Magazine : LibraryItem
 {
   public int IssueNumber { get; set; }
+
+  protected Magazine() : base() { }
   public Magazine(string isbn, string title, string author, int issueNumber, int publishedYear, bool isAvailable = true)
       : base(isbn, title, author, publishedYear)
   {
     IssueNumber = issueNumber;
-  }
-  public override string GetInfo()
-  {
-    string status = IsAvailable ? "Available" : "Borrowed";
-    return $"\n------------------------------\n{Title} (Magazine), by {Author} Issue #{IssueNumber}\n({PublishedYear}) - ISBN: {ISBN} [{status}]\n------------------------------";
   }
 }

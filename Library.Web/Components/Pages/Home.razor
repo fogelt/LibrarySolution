@@ -36,7 +36,7 @@
     <h2>Catalog</h2>
     <div class="w-25">
       <input type="text" class="form-control" placeholder="Search title or author..." value="@searchTerm"
-             @oninput="OnSearchChanged" />
+             @oninput="OnSearchInput" />
     </div>
   </div>
 
@@ -107,18 +107,19 @@
     stats = await LibraryService.GetStatisticsAsync();
   }
 
-  private async Task OnSearchChanged(ChangeEventArgs e)
+  private async Task OnSearchInput(ChangeEventArgs e)
   {
+    // If searchbar is empty fetch from DB, All Library items searchable with built in 'Matches'
+    string? lastSearch = searchTerm;
     searchTerm = e.Value?.ToString() ?? "";
-    Console.WriteLine("YES");
 
     if (string.IsNullOrWhiteSpace(searchTerm))
     {
       items = await LibraryService.GetAllItemsAsync();
     }
-    else
+    else if (searchTerm.Length > lastSearch.Length && items != null)
     {
-      items = await LibraryService.SearchItemsAsync(searchTerm);
+      items = items.Where(i => i.Matches(searchTerm)).ToList();
     }
   }
 }

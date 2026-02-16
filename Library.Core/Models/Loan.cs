@@ -1,14 +1,33 @@
+using System.ComponentModel.DataAnnotations;
 using Library.Core.Models.Items;
 
 namespace Library.Core.Models;
 
-public class Loan(LibraryItem item, Member member, DateOnly loanDate, DateOnly dueDate)
+public class Loan
 {
-  public LibraryItem Item { get; init; } = item;
-  public Member Member { get; init; } = member;
-  public DateOnly LoanDate { get; init; } = loanDate;
-  public DateOnly DueDate { get; init; } = dueDate;
-  public DateOnly? ReturnDate { get; set; } = null;
-  public bool IsOverdue => !IsReturned && DateOnly.FromDateTime(DateTime.Now) > DueDate;
+  [Key]
+  public int Id { get; set; }
+
+  public string ItemISBN { get; set; } = null!;
+  public LibraryItem Item { get; set; } = null!;
+
+  public string MemberId { get; set; } = null!;
+  public Member Member { get; set; } = null!;
+
+  public DateTime LoanDate { get; set; }
+  public DateTime DueDate { get; set; }
+  public DateTime? ReturnDate { get; set; }
+
   public bool IsReturned => ReturnDate.HasValue;
+  public bool IsOverdue => !IsReturned && DateTime.Now > DueDate;
+
+  protected Loan() { }
+
+  public Loan(LibraryItem item, Member member, DateTime loanDate, DateTime dueDate)
+  {
+    Item = item;
+    Member = member;
+    LoanDate = loanDate;
+    DueDate = dueDate;
+  }
 }
