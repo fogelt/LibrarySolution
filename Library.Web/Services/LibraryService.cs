@@ -81,23 +81,4 @@ public class LibraryService(IDbContextFactory<LibraryDbContext> dbFactory)
 
         return (total, loaned, mvp);
     }
-
-    // Helper for initial setup
-    public async Task SeedDataAsync()
-    {
-        using var context = dbFactory.CreateDbContext();
-        await context.Database.EnsureCreatedAsync();
-        if (await context.Items.AnyAsync()) return;
-
-        var member = new Member("M1", "Alice Freeman", "alice@example.com", DateTime.Now, 0);
-        context.Members.Add(member);
-
-        context.Items.AddRange(
-            new Book("BK-001", "The Rust Programming Language", "Steve Klabnik", 2018),
-            new Magazine("MG-202", "National Geographic", "Various", 145, 2023),
-            new DVD("DV-999", "Interstellar", "Christopher Nolan", 10140, 2014)
-        );
-
-        await context.SaveChangesAsync();
-    }
 }
