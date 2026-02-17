@@ -6,6 +6,10 @@ body {
     font-family: 'Inter', 'Segoe UI', serif;
 }
 
+h1[tabindex="-1"]:focus {
+    outline: none !important;
+}
+
 .glass-card {
     background: rgba(255, 255, 255, 0.03) !important;
     backdrop-filter: blur(20px) saturate(0%);
