@@ -7,15 +7,44 @@
 
 <PageTitle>Library Catalog</PageTitle>
 
-<div class="d-flex justify-content-between align-items-end mb-4">
-  <h2 class="fw-light text-white m-0">Catalog</h2>
-  <div style="width: 300px;">
-    <input type="text" class="form-control glass-input py-2" placeholder="Search title or author..." value="@searchTerm"
-           @oninput="OnSearchInput" />
+<div class="d-flex flex-column align-items-center mb-5 gap-4">
+  <div style="width: 100%; max-width: 500px;">
+    <input type="text" class="form-control glass-input py-2 text-center" placeholder="Search title or author..."
+           value="@searchTerm" @oninput="OnSearchInput" />
   </div>
 </div>
 
-@if (items == null)
+<div class="d-flex flex-row justify-content-between align-items-center gap-3 py-3">
+
+  <div class="btn-group glass-card p-1">
+    <button
+    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "All" ? "active" : "opacity-50")"
+    @onclick='() => SetFilter("All")'>All</button>
+    <button
+    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "Book" ? "active" : "opacity-50")"
+    @onclick='() => SetFilter("Book")'>Books</button>
+    <button
+    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "DVD" ? "active" : "opacity-50")"
+    @onclick='() => SetFilter("DVD")'>DVDs</button>
+    <button
+    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "Magazine" ? "active" : "opacity-50")"
+    @onclick='() => SetFilter("Magazine")'>Magazines</button>
+  </div>
+
+  <div class="dropdown">
+    <button class="glass-card dropdown-toggle px-4 py-2 opacity-50 hover-opacity-100" type="button"
+            data-bs-toggle="dropdown">
+      <i class="bi bi-sort-down me-2"></i>Sort By: @sortBy
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark glass-card border-white border-opacity-10 shadow-lg cursor-pointer">
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Title")'>Title</a></li>
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Author")'>Author</a></li>
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Year")'>Year</a></li>
+    </ul>
+  </div>
+</div>
+
+@if (allItems == null)
 {
   <div class="text-center py-5">
     <div class="spinner-grow text-light" role="status"></div>
@@ -24,7 +53,7 @@
 else
 {
   <div class="row g-4">
-    @foreach (var item in items)
+    @foreach (LibraryItem item in DisplayItems)
     {
       <div class="col-md-4">
         <LibraryItemCard Item="item" OnPressed="HandlePressed" />
@@ -34,31 +63,44 @@ else
 }
 
 @code {
-  private List<LibraryItem>? items;
+  private List<LibraryItem> allItems = new List<LibraryItem>();
   private string searchTerm = "";
+  private string filterType = "All";
+  private string sortBy = "Title";
+
+  private IEnumerable<LibraryItem> DisplayItems
+  {
+    get
+    {
+      IEnumerable<LibraryItem>? result = allItems.AsEnumerable();
+
+      // Filter
+      if (filterType != "All")
+        result = result.Where(i => i.GetType().Name == filterType);
+
+      // Search
+      if (!string.IsNullOrWhiteSpace(searchTerm))
+        result = result.Where(i => i.Matches(searchTerm));
+
+      // Sort
+      result = sortBy switch
+      {
+        "Author" => result.OrderBy(i => i.Author),
+        "Year" => result.OrderByDescending(i => i.PublishedYear),
+        _ => result.OrderBy(i => i.Title)
+      };
+
+      return result;
+    }
+  }
 
   protected override async Task OnInitializedAsync()
   {
-    items = await LibraryService.GetAllItemsAsync();
-  }
-  private async Task OnSearchInput(ChangeEventArgs e)
-  {
-    // If searchbar is empty fetch from DB, All Library items searchable with built in 'Matches'
-    string? lastSearch = searchTerm;
-    searchTerm = e.Value?.ToString() ?? "";
-
-    if (string.IsNullOrWhiteSpace(searchTerm))
-    {
-      items = await LibraryService.GetAllItemsAsync();
-    }
-    else if (searchTerm.Length > lastSearch.Length && items != null)
-    {
-      items = items.Where(i => i.Matches(searchTerm)).ToList();
-    }
+    allItems = await LibraryService.GetAllItemsAsync();
   }
 
-  private void HandlePressed(LibraryItem item)
-  {
-    Console.WriteLine($"User wants to see: {item.Title}");
-  }
+  private void HandlePressed() => Console.WriteLine("Pressed");
+  private void OnSearchInput(ChangeEventArgs e) => searchTerm = e.Value?.ToString() ?? "";
+  private void SetFilter(string type) => filterType = type;
+  private void SetSort(string criteria) => sortBy = criteria;
 }

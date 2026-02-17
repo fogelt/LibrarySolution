@@ -9,6 +9,18 @@ h1[tabindex="-1"]:focus {
     outline: none !important;
 }
 
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.cursor-default {
+    cursor: default !important;
+}
+
+.cursor-help {
+    cursor: help !important;
+}
+
 .glass-card {
     background: rgba(255, 255, 255, 0.03) !important;
     backdrop-filter: blur(20px) saturate(0%);
@@ -22,22 +34,6 @@ h1[tabindex="-1"]:focus {
     background: rgba(255, 255, 255, 0.08) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
-}
-
-.btn-primary, .btn-light {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: none !important;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-radius: 4px;
-}
-
-.btn-outline-light {
-    border: 1px solid #ffffff !important;
-    color: #ffffff !important;
-    background: transparent !important;
 }
 
 .glass-input {
@@ -61,6 +57,18 @@ h1[tabindex="-1"]:focus {
 .glass-input:focus {
     border-color: #ffffff !important;
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+}
+
+.dropdown-menu.glass-card {
+    background: rgba(20, 20, 20, 0.9) !important;
+    backdrop-filter: blur(20px);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
 h1, h2, h3 {
