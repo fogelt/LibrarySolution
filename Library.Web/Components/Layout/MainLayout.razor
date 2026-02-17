@@ -1,8 +1,30 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
+<div class="page px-3">
     <main>
-        <article class="content px-4">
+        <header class="pt-5 pb-2">
+            <h1 class="display-4 fw-bold text-center text-white text-uppercase mb-2" style="letter-spacing: 0.3em;">
+                The Library
+            </h1>
+            <div class="d-flex justify-content-center mb-4">
+                @* Swapped Gold for White *@
+                <div style="height: 1px; width: 100px; background: #ffffff; opacity: 0.8;"></div>
+            </div>
+        </header>
+
+        <nav class="navbar navbar-expand glass-card mb-5 mx-auto border-white border-opacity-10"
+             style="max-width: 500px;">
+            <div class="container justify-content-center">
+                <div class="navbar-nav text-uppercase fw-light" style="letter-spacing: 0.2em; font-size: 0.75rem;">
+                    <a class="nav-link text-white px-4 mx-2 opacity-50 hover-opacity-100" href="/">Home</a>
+                    <a class="nav-link text-white px-4 mx-2 opacity-50 hover-opacity-100" href="/catalog">Catalog</a>
+                    <a class="nav-link text-white px-4 mx-2 opacity-50 hover-opacity-100" href="/members">Members</a>
+                    <a class="nav-link text-white px-4 mx-2 opacity-50 hover-opacity-100" href="/loans">Loans</a>
+                </div>
+            </div>
+        </nav>
+
+        <article class="content">
             @Body
         </article>
     </main>
