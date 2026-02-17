@@ -99,3 +99,20 @@ h1, h2, h3 {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+.bg-image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 55%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url('../images/library-bg.jfif'); 
+    background-size: cover;
+    background-position: center;
+    mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+    opacity: 0.15;
+    filter: grayscale(100%) contrast(110%);
+}
