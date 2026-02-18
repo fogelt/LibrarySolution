@@ -1,11 +1,63 @@
-@rendermode InteractiveServer
 @page "/loans"
+@rendermode InteractiveServer
+@using Library.Core.Models
 @using Library.Core.Models.Items
+@using Library.Web.Components.UI
 @using Library.Web.Services
 @inject LibraryService LibraryService
 
 <PageTitle>Library Loans</PageTitle>
 
-<div class="d-flex justify-content-between align-items-end mb-4">
-  <h2 class="fw-light text-white m-0">Loans</h2>
+<div class="d-flex justify-content-between align-items-center mb-5 mt-4">
+  <h2 class="fw-light text-white m-0 uppercase" style="letter-spacing: 0.2em;">Active Loans</h2>
+  <button class="btn btn-sm glass-card text-white px-4 py-2 border-white border-opacity-10 shadow-sm"
+          @onclick="() => showModal = true">
+    <i class="bi bi-calendar2-plus me-2"></i> New Loan
+  </button>
 </div>
+
+<div class="glass-card p-4">
+  @if (activeLoans == null)
+  {
+    <div class="text-center opacity-50">Loading loans...</div>
+  }
+  else if (!activeLoans.Any())
+  {
+    <div class="text-center opacity-50 py-5">No active loans found.</div>
+  }
+  else
+  {
+    <LoanTable Loans="activeLoans" OnReturnItem="HandleReturn" />
+  }
+</div>
+
+@if (showModal)
+{
+  <NewLoanModal Members="allMembers" Items="allItems" OnClose="() => showModal = false" OnLoanCreated="RefreshData" />
+}
+
+@code {
+  private List<Loan>? activeLoans;
+  private List<Member> allMembers = new List<Member>();
+  private List<LibraryItem> allItems = new List<LibraryItem>();
+  private bool showModal = false;
+
+  protected override async Task OnInitializedAsync() => await RefreshData();
+  private async Task RefreshData()
+  {
+    allMembers = await LibraryService.GetAllMembersAsync();
+    allItems = await LibraryService.GetAllItemsAsync();
+    activeLoans = await LibraryService.GetAllLoansAsync();
+
+    StateHasChanged();
+  }
+
+  private async Task HandleReturn(string loanId)
+  {
+    bool success = await LibraryService.ReturnItemAsync(loanId);
+    if (success)
+    {
+      await RefreshData();
+    }
+  }
+}

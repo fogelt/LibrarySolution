@@ -13,10 +13,17 @@ public class Repository<T> : IRepository<T> where T : class
     _dbFactory = dbFactory;
   }
 
-  public async Task<IEnumerable<T>> GetAllAsync()
+  public async Task<IEnumerable<T>> GetAllAsync(params string[] includes)
   {
     using var context = _dbFactory.CreateDbContext();
-    return await context.Set<T>().ToListAsync();
+    IQueryable<T> query = context.Set<T>();
+
+    foreach (var include in includes)
+    {
+      query = query.Include(include);
+    }
+
+    return await query.ToListAsync();
   }
 
   public async Task<T?> GetByIdAsync(string id)
@@ -42,10 +49,12 @@ public class Repository<T> : IRepository<T> where T : class
   public async Task DeleteAsync(string id)
   {
     using var context = _dbFactory.CreateDbContext();
-    var entity = await GetByIdAsync(id);
+    var dbSet = context.Set<T>();
+    var entity = await dbSet.FindAsync(id);
+
     if (entity != null)
     {
-      context.Set<T>().Remove(entity);
+      dbSet.Remove(entity);
       await context.SaveChangesAsync();
     }
   }

@@ -9,16 +9,13 @@ public class LibraryService(
     IRepository<Member> memberRepo,
     IRepository<Loan> loanRepo)
 {
-    public async Task<List<Member>> GetAllMembersAsync() => [.. (await memberRepo.GetAllAsync()).OrderBy(m => m.Name)];
+    //Membership functions
+    public async Task<List<Member>> GetAllMembersAsync() => [.. (await memberRepo.GetAllAsync("Loans.Item")).OrderBy(m => m.Name)];
     public async Task AddMemberAsync(Member member) => await memberRepo.AddAsync(member);
     public async Task DeleteMemberAsync(Member member) => await memberRepo.DeleteAsync(member.MemberId);
 
-    public async Task<List<LibraryItem>> GetAllItemsAsync()
-    {
-        var items = await itemRepo.GetAllAsync();
-        return items.OrderBy(i => i.Title).ToList();
-    }
-
+    //Loan functions
+    public async Task<List<Loan>> GetAllLoansAsync() => [.. (await loanRepo.GetAllAsync("Member", "Item")).OrderBy(l => l.IsReturned).ThenBy(l => l.DueDate)];
     public async Task<bool> BorrowItemAsync(string isbn, string memberId)
     {
         var item = await itemRepo.GetByIdAsync(isbn);
@@ -27,13 +24,51 @@ public class LibraryService(
         if (item == null || member == null || !item.IsAvailable) return false;
 
         item.IsAvailable = false;
-        var loan = new Loan(item, member, DateTime.Now, DateTime.Now.AddDays(14));
-
         await itemRepo.UpdateAsync(item);
+
+        member.ActiveScore = Math.Min(100, member.ActiveScore + 5);
+        await memberRepo.UpdateAsync(member);
+
+        var loan = new Loan
+        {
+            ItemISBN = isbn,
+            MemberId = memberId,
+            LoanDate = DateTime.Now,
+            DueDate = DateTime.Now.AddDays(14)
+        };
+
         await loanRepo.AddAsync(loan);
         return true;
     }
+    public async Task<bool> ReturnItemAsync(string loanId)
+    {
+        var loan = (await loanRepo.GetAllAsync("Item", "Member"))
+                   .FirstOrDefault(l => l.Id == loanId);
 
+        if (loan == null || loan.ReturnDate != null) return false;
+
+        if (loan.Item != null)
+        {
+            loan.Item.IsAvailable = true;
+            await itemRepo.UpdateAsync(loan.Item);
+        }
+
+        if (loan.Member != null)
+        {
+            loan.Member.ActiveScore = Math.Min(100, loan.Member.ActiveScore + 5);
+            await memberRepo.UpdateAsync(loan.Member);
+        }
+
+        loan.ReturnDate = DateTime.Now;
+        await loanRepo.UpdateAsync(loan);
+
+        return true;
+    }
+
+    //LibraryItem functions
+    public async Task<List<LibraryItem>> GetAllItemsAsync() => [.. (await itemRepo.GetAllAsync()).OrderBy(i => i.Title)];
+
+    //Global stats
     public async Task<(int Total, int Loaned, string MVP)> GetStatisticsAsync()
     {
         var allItems = await itemRepo.GetAllAsync();

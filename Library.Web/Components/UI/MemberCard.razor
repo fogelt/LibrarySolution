@@ -1,5 +1,9 @@
 @using Library.Core.Models;
 
+@{
+  int activeCount = Member.Loans.Count(l => !l.IsReturned);
+}
+
 <div
   class="m-3 d-flex align-items-center w-full gap-3 glass-card p-2 pe-4 shadow-lg border-white border-opacity-10 rounded-pill user-widget">
 
@@ -13,9 +17,9 @@
         <i class="bi bi-shield-lock" style="font-size: 0.6rem;" title="ID"></i>
         <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">@Member.MemberId</span>
       </div>
-      <div class="@(Member.Loans.Count > 3 ? "text-warning" : "text-white") opacity-50"
+      <div class="@(activeCount > 3 ? "text-warning" : "text-white") opacity-50"
            style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">
-        @Member.Loans.Count Active Loans
+        @activeCount Active Loans
       </div>
     </div>
   </div>

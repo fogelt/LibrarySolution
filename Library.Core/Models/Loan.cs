@@ -6,8 +6,7 @@ namespace Library.Core.Models;
 public class Loan
 {
   [Key]
-  public int Id { get; set; }
-
+  public string Id { get; set; } = Guid.NewGuid().ToString();
   public string ItemISBN { get; set; } = null!;
   public LibraryItem Item { get; set; } = null!;
   public string MemberId { get; set; } = null!;
@@ -18,11 +17,11 @@ public class Loan
   public bool IsReturned => ReturnDate.HasValue;
   public bool IsOverdue => !IsReturned && DateTime.Now > DueDate;
 
-  protected Loan() { }
+  public Loan() { }
 
-  public Loan(LibraryItem item, Member member, DateTime loanDate, DateTime dueDate)
+  public Loan(LibraryItem itemISBN, Member member, DateTime loanDate, DateTime dueDate)
   {
-    Item = item;
+    Item = itemISBN;
     Member = member;
     LoanDate = loanDate;
     DueDate = dueDate;
