@@ -23,15 +23,36 @@
     <div class="spinner-border text-light opacity-25" role="status"></div>
   </div>
 }
-else
+<div class="row glass-card">
+  @foreach (Member member in pagedMembers)
+  {
+    <div @onclick="() => SelectMember(member)" class="col-md-4 position-relative cursor-pointer">
+      <MemberCard Member="member" />
+      <button
+        class="btn btn-sm position-absolute top-0 end-0 m-3 hover-opacity-100 shadow-none glass-card text-danger border-white border-opacity-10"
+        @onclick="() => DeleteMember(member)" @onclick:stopPropagation="true">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+  }
+</div>
+
+@if (totalPages > 1)
 {
-  <div class="row g-4">
-    @foreach (Member member in allMembers)
-    {
-      <div class="col-md-6 col-lg-4">
-        <MemberCard Member="member" />
-      </div>
-    }
+  <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
+    <button class="btn btn-sm glass-card text-white px-3 @(currentPage == 1 ? "opacity-25" : "")"
+            disabled="@(currentPage == 1)" @onclick="() => currentPage--">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <span class="text-white opacity-75 small uppercase fw-bold" style="letter-spacing: 0.1em;">
+      Page @currentPage of @totalPages
+    </span>
+
+    <button class="btn btn-sm glass-card text-white px-3 @(currentPage == totalPages ? "opacity-25" : "")"
+            disabled="@(currentPage == totalPages)" @onclick="() => currentPage++">
+      <i class="bi bi-chevron-right"></i>
+    </button>
   </div>
 }
 
@@ -40,18 +61,41 @@ else
   <AddMemberModal OnClose="() => showAddModal = false" OnMemberAdded="RefreshMembers" />
 }
 
+@if (selectedMember != null)
+{
+  <MemberDetailsModal Member="selectedMember" OnClose="() => selectedMember = null" />
+}
+
 @code {
   private List<Member>? allMembers;
+  private Member? selectedMember;
   private bool showAddModal = false;
 
-  protected override async Task OnInitializedAsync()
-  {
-    await RefreshMembers();
-  }
+  // Pagination State
+  private int currentPage = 1;
+  private int pageSize = 12;
+
+  private IEnumerable<Member> pagedMembers => allMembers?
+      .Skip((currentPage - 1) * pageSize)
+      .Take(pageSize) ?? Enumerable.Empty<Member>();
+
+  private int totalPages => allMembers == null ? 0 : (int)Math.Ceiling((double)allMembers.Count / pageSize);
+
+  protected override async Task OnInitializedAsync() => await RefreshMembers();
 
   private async Task RefreshMembers()
   {
     allMembers = await LibraryService.GetAllMembersAsync();
-    StateHasChanged(); // Ensures the UI updates if called from an EventCallback
+    // Reset to page 1 if current page is now out of bounds after a delete
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+    StateHasChanged();
   }
+
+  private async Task DeleteMember(Member member)
+  {
+    await LibraryService.DeleteMemberAsync(member);
+    await RefreshMembers();
+  }
+
+  private void SelectMember(Member member) => selectedMember = member;
 }

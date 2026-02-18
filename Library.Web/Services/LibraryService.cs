@@ -9,13 +9,9 @@ public class LibraryService(
     IRepository<Member> memberRepo,
     IRepository<Loan> loanRepo)
 {
-    public async Task<List<Member>> GetAllMembersAsync()
-    {
-        var members = await memberRepo.GetAllAsync();
-        return members.OrderBy(m => m.Name).ToList();
-    }
-
+    public async Task<List<Member>> GetAllMembersAsync() => [.. (await memberRepo.GetAllAsync()).OrderBy(m => m.Name)];
     public async Task AddMemberAsync(Member member) => await memberRepo.AddAsync(member);
+    public async Task DeleteMemberAsync(Member member) => await memberRepo.DeleteAsync(member.MemberId);
 
     public async Task<List<LibraryItem>> GetAllItemsAsync()
     {

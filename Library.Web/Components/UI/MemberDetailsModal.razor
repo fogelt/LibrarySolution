@@ -1,0 +1,81 @@
+@using Library.Core.Models
+
+@if (Member != null)
+{
+  <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content glass-card border-white border-opacity-10 text-white">
+
+        <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-start w-100">
+          <div class="d-flex align-items-center gap-3">
+            <img src="../images/avatar-1.webp" class="rounded-circle border border-2 border-white border-opacity-25"
+                 style="width: 50px; height: 50px; object-fit: cover;" />
+            <div>
+              <h5 class="modal-title fw-bold mb-0">@Member.Name</h5>
+              <small class="opacity-50 text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">
+                Member ID: @Member.MemberId
+              </small>
+            </div>
+          </div>
+
+          <button type="button" class="btn-close btn-close-white shadow-none ms-auto" style="margin-top: -5px;"
+                  @onclick="OnClose">
+          </button>
+        </div>
+
+        <div class="modal-body py-4">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="glass-card p-3">
+                <label class="opacity-50 small fw-bold text-uppercase d-block">Email</label>
+                <p class="mb-3 opacity-70 text-uppercase" style="font-size: 0.8rem; letter-spacing: 0.05em;">@Member.Email
+                </p>
+
+                <label class="opacity-50 small fw-bold text-uppercase d-block">Join date</label>
+                <p class="mb-3 opacity-70 text-uppercase" style="font-size: 0.8rem; letter-spacing: 0.05em;">
+                  @Member.MemberSince.ToShortDateString()</p>
+
+                  <label class="opacity-50 small fw-bold text-uppercase d-block mb-1">Active Score</label>
+                  <div class="progress bg-light bg-opacity-50" style="height: 6px;">
+                    <div class="progress-bar bg-success" style="width: @Member.ActiveScore%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <h6 class="fw-bold mb-3 text-uppercase opacity-75">Active Loans</h6>
+                @if (Member.Loans == null || !Member.Loans.Any())
+                {
+                  <div class="p-4 text-center">
+                    <i class="bi bi-book opacity-25 fs-2"></i>
+                    <p class="opacity-50 mt-2">No items currently borrowed.</p>
+                  </div>
+                }
+                else
+                {
+                  <div class="list-group list-group-flush">
+                    @foreach (Loan loan in Member.Loans)
+                    {
+                      <div class="list-group-item glass-card text-white px-0 d-flex justify-content-between align-items-center">
+                        <div>
+                          <div class="fw-bold">@loan.Item.Title</div>
+                          <small class="opacity-50">Due: @loan.DueDate.ToShortDateString()</small>
+                        </div>
+                        <span class="badge rounded-pill bg-white bg-opacity-10">@loan.Item.GetType().Name</span>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  }
+
+@code {
+  [Parameter] public Member? Member { get; set; }
+  [Parameter] public EventCallback OnClose { get; set; }
+}
