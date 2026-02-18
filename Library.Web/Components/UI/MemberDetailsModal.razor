@@ -1,5 +1,7 @@
 @using Library.Core.Models
-
+@{
+  var activeLoansCount = Member?.Loans?.Count(l => !l.IsReturned) ?? 0;
+}
 @if (Member != null)
 {
   <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(15px);">
@@ -44,7 +46,7 @@
 
               <div class="col-md-8">
                 <h6 class="fw-bold mb-3 text-uppercase opacity-75">Active Loans</h6>
-                @if (Member.Loans == null || !Member.Loans.Any())
+                @if (activeLoansCount == 0)
                 {
                   <div class="p-4 text-center">
                     <i class="bi bi-book opacity-25 fs-2"></i>
