@@ -10,14 +10,11 @@ public class Loan
 
   public string ItemISBN { get; set; } = null!;
   public LibraryItem Item { get; set; } = null!;
-
   public string MemberId { get; set; } = null!;
   public Member Member { get; set; } = null!;
-
   public DateTime LoanDate { get; set; }
   public DateTime DueDate { get; set; }
   public DateTime? ReturnDate { get; set; }
-
   public bool IsReturned => ReturnDate.HasValue;
   public bool IsOverdue => !IsReturned && DateTime.Now > DueDate;
 

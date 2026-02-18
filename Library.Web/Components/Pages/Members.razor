@@ -1,11 +1,57 @@
 @rendermode InteractiveServer
 @page "/members"
-@using Library.Core.Models.Items
+@using Library.Core.Models
+@using Library.Web.Components.UI
 @using Library.Web.Services
 @inject LibraryService LibraryService
 
 <PageTitle>Library Members</PageTitle>
 
-<div class="d-flex justify-content-between align-items-end mb-4">
-  <h2 class="fw-light text-white m-0">Members</h2>
+<div class="d-flex justify-content-between align-items-center mb-5 mt-4">
+  <h2 class="fw-light text-white m-0 uppercase" style="letter-spacing: 0.2em;">Library Members
+  </h2>
+
+  <button class="btn btn-sm glass-card text-white px-4 py-2 border-white border-opacity-10 shadow-sm"
+          @onclick="() => showAddModal = true">
+    <i class="bi bi-person-plus me-2"></i> Add Member
+  </button>
 </div>
+
+@if (allMembers == null)
+{
+  <div class="text-center py-5">
+    <div class="spinner-border text-light opacity-25" role="status"></div>
+  </div>
+}
+else
+{
+  <div class="row g-4">
+    @foreach (Member member in allMembers)
+    {
+      <div class="col-md-6 col-lg-4">
+        <MemberCard Member="member" />
+      </div>
+    }
+  </div>
+}
+
+@if (showAddModal)
+{
+  <AddMemberModal OnClose="() => showAddModal = false" OnMemberAdded="RefreshMembers" />
+}
+
+@code {
+  private List<Member>? allMembers;
+  private bool showAddModal = false;
+
+  protected override async Task OnInitializedAsync()
+  {
+    await RefreshMembers();
+  }
+
+  private async Task RefreshMembers()
+  {
+    allMembers = await LibraryService.GetAllMembersAsync();
+    StateHasChanged(); // Ensures the UI updates if called from an EventCallback
+  }
+}

@@ -1,0 +1,26 @@
+@using Library.Core.Models;
+
+<div
+  class="m-4 d-flex align-items-center w-auto gap-3 glass-card p-2 pe-4 shadow-lg border-white border-opacity-10 rounded-pill user-widget">
+
+  <img src="../images/avatar-1.webp" class="rounded-circle border border-2 border-black border-opacity-25 shadow-sm"
+       style="width: 42px; height: 42px; object-fit: cover;" alt="User Avatar" />
+
+  <div class="d-flex flex-column justify-content-center gap-1 flex-grow-1">
+    <span class="text-white fw-bold m-0 p-0" style="font-size: 0.8rem; line-height: 1.1;">@Member.Name</span>
+    <div class="d-flex flex-row justify-content-between align-items-center w-100">
+      <div class="d-flex align-items-center gap-1 opacity-50">
+        <i class="bi bi-shield-lock" style="font-size: 0.6rem;" title="ID"></i>
+        <span style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">@Member.MemberId</span>
+      </div>
+      <div class="@(Member.Loans.Count > 3 ? "text-warning" : "text-white") opacity-50"
+           style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em;">
+        @Member.Loans.Count Active Loans
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+  [Parameter][EditorRequired] public Member Member { get; set; } = default!;
+}
