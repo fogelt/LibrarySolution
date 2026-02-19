@@ -8,7 +8,7 @@ namespace Library.Web.Services;
 public class LibraryService(
     IGenericRepository<LibraryItem> itemRepo,
     IGenericRepository<Member> memberRepo,
-    IGenericRepository<Loan> loanRepo)
+    IGenericRepository<Loan> loanRepo) : ILibraryService
 {
     //Membership functions
     public async Task<List<Member>> GetAllMembersAsync() => [.. (await memberRepo.GetAllAsync("Loans.Item")).OrderBy(m => m.Name)];

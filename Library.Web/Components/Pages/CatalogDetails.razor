@@ -3,7 +3,7 @@
 @page "/catalog/{Id}"
 @using Library.Core.Models.Items
 @using Library.Web.Services
-@inject LibraryService LibraryService
+@inject ILibraryService LibraryService
 @inject NavigationManager Navigation
 
 <PageTitle>@(item?.Title ?? "Loading...")</PageTitle>

@@ -15,7 +15,7 @@ builder.Services.AddDbContextFactory<LibraryDbContext>(options =>
     options.UseSqlite("Data Source=library.db"));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<LibraryService>();
+builder.Services.AddScoped<ILibraryService, LibraryService>();
 
 var app = builder.Build();
 

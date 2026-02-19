@@ -1,16 +1,16 @@
 using Bunit;
 using Library.Web.Components.UI;
-using Library.Web.Services;
 using Library.Core.DTOs;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
+using Library.Web.Services;
 
 public class AddItemModalTests : BunitContext
 {
   [Fact]
   public void Modal_ShouldChangeLabel_WhenCategorySwitchesToDVD()
   {
-    var mockService = new Mock<LibraryService>(null!, null!);
+    var mockService = new Mock<ILibraryService>();
     Services.AddSingleton(mockService.Object);
 
     var cut = Render<AddItemModal>();
@@ -18,14 +18,13 @@ public class AddItemModalTests : BunitContext
     var dvdOption = cut.FindAll(".dropdown-item").First(x => x.TextContent.Contains("DVD"));
     dvdOption.Click();
 
-    var label = cut.Find("label.small.opacity-50.mb-1:nth-of-type(1)");
     Assert.Contains("Seconds", cut.Markup);
   }
 
   [Fact]
   public async Task FormSubmit_ShouldCallService_WithCorrectData()
   {
-    var mockService = new Mock<LibraryService>(null!, null!);
+    var mockService = new Mock<ILibraryService>();
     bool saveTriggered = false;
 
     mockService.Setup(s => s.AddItemFromDtoAsync(It.IsAny<LibraryItemDto>(), It.IsAny<string>()))
@@ -37,8 +36,13 @@ public class AddItemModalTests : BunitContext
         .Add(p => p.OnSave, () => saveTriggered = true)
     );
 
-    cut.Find("input[placeholder*='e.g. 978']").Change("12345");
-    cut.Find("input[placeholder*='Enter title']").Change("Test Movie");
+    cut.Find("input[placeholder*='978']").Change("12345"); // ISBN
+    cut.Find("input[placeholder*='Enter title']").Change("Test Movie"); // Title
+    cut.Find("input[placeholder*='Name']").Change("Test Author"); // Author
+
+    cut.Find("textarea").Change("This is a required description.");
+
+    cut.FindAll("input[type='number']")[0].Change("2024");
 
     await cut.Find("form").SubmitAsync();
 
@@ -50,10 +54,32 @@ public class AddItemModalTests : BunitContext
   }
 
   [Fact]
+  public async Task Form_ShouldShowError_WhenISBNMissing()
+  {
+    var mockService = new Mock<ILibraryService>();
+    Services.AddSingleton(mockService.Object);
+
+    var cut = Render<AddItemModal>();
+
+    cut.Find("input[placeholder*='Enter title']").Change("Test Movie");
+    cut.Find("input[placeholder*='Name']").Change("Test Author");
+    cut.Find("textarea").Change("A valid description.");
+
+    await cut.Find("form").SubmitAsync();
+
+    mockService.Verify(s => s.AddItemFromDtoAsync(It.IsAny<LibraryItemDto>(), It.IsAny<string>()),
+        Times.Never);
+
+    var validationMessage = cut.Find(".text-danger.small");
+    Assert.Equal("ISBN is required", validationMessage.TextContent);
+  }
+
+  [Fact]
   public void ImagePreview_ShouldShowIcon_WhenUrlIsEmpty()
   {
-    var mockService = new Mock<LibraryService>(null!, null!);
+    var mockService = new Mock<ILibraryService>();
     Services.AddSingleton(mockService.Object);
+
     var cut = Render<AddItemModal>();
 
     Assert.NotNull(cut.Find(".bi-image"));
