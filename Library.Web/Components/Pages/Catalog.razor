@@ -15,38 +15,46 @@
   </div>
 </div>
 
-<div class="d-flex flex-row justify-content-between align-items-center gap-3 py-3">
+<div class="d-flex justify-content-between align-items-center w-100 gap-2">
+  <div class="dropdown">
+    <button class="glass-card dropdown-toggle px-3 px-md-4 py-2 text-white opacity-75" type="button"
+            data-bs-toggle="dropdown">
+      <i class="bi bi-sort-down me-2"></i>Sort By: @sortBy
+    </button>
+    <ul class="dropdown-menu dropdown-menu-dark glass-card border-white border-opacity-10 shadow-lg cursor-pointer">
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Title")'>Title</a></li>
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Author")'>Author</a></li>
+      <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Year")'>Year</a></li>
+    </ul>
+  </div>
 
-  <div class="btn-group glass-card p-1">
+  <button class="btn btn-sm glass-card text-white px-3 px-md-4 py-2 border-white border-opacity-10"
+          @onclick="() => showCreateModal = true">
+    <i class="bi bi-bag-plus me-1 me-md-2"></i> <span class="d-none d-sm-inline">Add Item</span><span
+    class="d-inline d-sm-none">Add</span>
+  </button>
+</div>
+
+<div class="d-flex flex-wrap justify-content-center justify-content-md-between align-items-center gap-3 py-3">
+
+  <div class="btn-group glass-card p-1 w-100 w-md-50">
     <button
-    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "All" ? "active" : "opacity-50")"
+    class="nav-link text-white px-2 px-md-4 py-1 flex-fill @(filterType == "All" ? "active opacity-100" : "opacity-50")"
     @onclick='() => SetFilter("All")'>All</button>
+
     <button
-    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "Book" ? "active" : "opacity-50")"
+    class="nav-link text-white px-2 px-md-4 py-1 flex-fill @(filterType == "Book" ? "active opacity-100" : "opacity-50")"
     @onclick='() => SetFilter("Book")'>Books</button>
+
     <button
-    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "DVD" ? "active" : "opacity-50")"
+    class="nav-link text-white px-2 px-md-4 py-1 flex-fill @(filterType == "DVD" ? "active opacity-100" : "opacity-50")"
     @onclick='() => SetFilter("DVD")'>DVDs</button>
+
     <button
-    class="nav-link text-white px-4 py-1 mx-2 opacity-50 hover-opacity-100 @(filterType == "Magazine" ? "active" : "opacity-50")"
+    class="nav-link text-white px-2 px-md-4 py-1 flex-fill @(filterType == "Magazine" ? "active opacity-100" : "opacity-50")"
     @onclick='() => SetFilter("Magazine")'>Magazines</button>
   </div>
 
-  <button class="btn btn-sm glass-card text-white px-4 py-2 border-white border-opacity-10 shadow-sm"
-          @onclick="() => showCreateModal = true">
-    <i class="bi bi-bag-plus me-2"></i> Add Item
-  </button>
-
-</div>
-<div class="dropdown my-3">
-  <button class="glass-card dropdown-toggle px-4 py-2" type="button" data-bs-toggle="dropdown">
-    <i class="bi bi-sort-down me-2"></i>Sort By: @sortBy
-  </button>
-  <ul class="dropdown-menu dropdown-menu-dark glass-card border-white border-opacity-10 shadow-lg cursor-pointer">
-    <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Title")'>Title</a></li>
-    <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Author")'>Author</a></li>
-    <li><a class="dropdown-item py-2 opacity-50 hover-opacity-100" @onclick='() => SetSort("Year")'>Year</a></li>
-  </ul>
 </div>
 
 @if (allItems == null)
