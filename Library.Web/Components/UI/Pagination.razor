@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center align-items-center gap-3 mt-5">
+<div class="d-flex justify-content-center align-items-center gap-3 m-5">
   <button class="btn btn-sm glass-card text-white px-3 @(CurrentPage == 1 ? "opacity-25" : "hover-opacity-100")"
           disabled="@(CurrentPage == 1)" @onclick="() => OnPageChanged.InvokeAsync(CurrentPage - 1)">
     <i class="bi bi-chevron-left"></i>
