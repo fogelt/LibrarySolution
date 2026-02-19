@@ -2,7 +2,7 @@ using Library.Core.Models;
 using Library.Core.Models.Items;
 using Library.Core.DTOs;
 
-namespace Library.Web.Services;
+namespace Library.Core.Interfaces;
 
 public interface ILibraryService
 {

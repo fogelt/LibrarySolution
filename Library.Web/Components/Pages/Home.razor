@@ -1,8 +1,8 @@
 ﻿@rendermode InteractiveServer
 @page "/"
 @using Library.Core.Models.Items
-@using Library.Web.Services
-@inject LibraryService LibraryService
+@using Library.Core.Interfaces
+@inject ILibraryService LibraryService
 
 <PageTitle>Library Home</PageTitle>
 
