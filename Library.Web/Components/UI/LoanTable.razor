@@ -63,7 +63,7 @@
                 <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 py-1"
                       style="font-size: 0.6rem; letter-spacing: 0.05em;">RETURNED</span>
               }
-              else
+              @if (!loan.IsReturned && !loan.IsOverdue)
               {
                 <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-1"
                       style="font-size: 0.6rem; letter-spacing: 0.05em;">ACTIVE</span>
