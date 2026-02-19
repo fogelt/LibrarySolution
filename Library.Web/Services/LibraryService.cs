@@ -67,6 +67,7 @@ public class LibraryService(
 
     //LibraryItem functions
     public async Task<List<LibraryItem>> GetAllItemsAsync() => [.. (await itemRepo.GetAllAsync()).OrderBy(i => i.Title)];
+    public async Task<LibraryItem?> GetLibraryItemAsync(string id) => await itemRepo.GetByIdAsync(id);
 
     //Global stats
     public async Task<(int Total, int Loaned, string MVP)> GetStatisticsAsync()
