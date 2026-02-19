@@ -6,17 +6,31 @@
 
 <PageTitle>Library Home</PageTitle>
 
+<div class="welcome-section mb-5 mt-2 text-center d-flex flex-column align-items-center">
+  <h2 class="fw-light text-white m-0 text-uppercase" style="letter-spacing: 0.2em;">
+    Welcome
+  </h2>
+
+  <p class="mt-3 text-secondary fw-light mx-auto" style="max-width: 400px; line-height: 1.7; font-size: 1.1rem;">
+    Every book, film, and magazine tells a story. This space helps you
+    <span class="text-white opacity-75">organize, explore, and share</span> the knowledge within
+    our collection.
+  </p>
+
+  <hr class="border-white opacity-10 w-25 mb-2 mx-auto" />
+</div>
+
 <div class="row g-4 mb-5">
-  @foreach (var stat in new[] {
-    (stats.Total.ToString(), "Total Items"),
-    (stats.Loaned.ToString(), "On Loan"),
-    (stats.MVP, "Top Member")
-})
+  @foreach ((string Value, string Label, string Icon) stat in GetStatsList())
   {
     <div class="col-md-4">
-      <div class="card glass-card p-4 text-center">
-        <h2 class="fw-bold mb-0">@stat.Item1</h2>
-        <small class="text-uppercase opacity-75">@stat.Item2</small>
+      <div class="card glass-card p-4 text-center position-relative overflow-hidden">
+        <div class="position-relative">
+          <h2 class="fw-bold mb-0">@stat.Value</h2>
+          <small class="text-uppercase opacity-75">
+            <i class="bi @stat.Icon me-1"></i> @stat.Label
+          </small>
+        </div>
       </div>
     </div>
   }
@@ -24,12 +38,19 @@
 
 @code {
   private (int Total, int Loaned, string MVP) stats;
+
   protected override async Task OnInitializedAsync()
   {
-    await LoadData();
-  }
-  private async Task LoadData()
-  {
     stats = await LibraryService.GetStatisticsAsync();
+  }
+
+  private IEnumerable<(string Value, string Label, string Icon)> GetStatsList()
+  {
+    return new[]
+    {
+            (stats.Total.ToString(), "Total Items", "bi-collection"),
+            (stats.Loaned.ToString(), "On Loan", "bi-journal-bookmark"),
+            (stats.MVP ?? "None", "Top Member", "bi-star")
+        };
   }
 }
