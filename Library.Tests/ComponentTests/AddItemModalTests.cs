@@ -3,7 +3,7 @@ using Library.Web.Components.UI;
 using Library.Core.DTOs;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
-using Library.Web.Services;
+using Library.Core.Interfaces;
 
 public class AddItemModalTests : BunitContext
 {
